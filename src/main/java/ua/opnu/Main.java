@@ -2,6 +2,7 @@ package ua.opnu;
 
 import java.util.Arrays;
 import java.util.function.Consumer;
+import java.util.function.Function;
 import java.util.function.Predicate;
 
 //TIP To <b>Run</b> code, press <shortcut actionId="Run"/> or
@@ -47,6 +48,32 @@ public class Main {
         }
     }
 
+    //#5
+    static void processIf(int[] input, Predicate<Integer> condition, Consumer<Integer> action) {
+        for (int i : input) {
+            if (condition.test(i)) {
+                action.accept(i);
+            }
+        }
+    }
+
+    //#6
+    static int[] processArray(int[] input, Function<Integer, Integer> function) {
+        int[] result = new int[input.length];
+        for (int i = 0; i < input.length; i++) {
+            result[i] = function.apply(input[i]);
+        }
+        return result;
+    }
+
+    //#7
+    static String[] stringify(int[] input, Function<Integer, String> function) {
+        String[] result = new String[input.length];
+        for (int i = 0; i < input.length; i++) {
+            result[i] = function.apply(input[i]);
+        }
+        return result;
+    }
     static void main() {
         System.out.println("=== Завдання 1 ===");
         for (int n : new int[]{-3, 0, 1, 2, 9, 13, 25, 97}) {
@@ -83,6 +110,26 @@ public class Main {
                 s -> System.out.println(s.getLastName().toUpperCase() + " " + s.getName());
         forEach(students, printName);
 
+        System.out.println("\n=== Завдання 5 ===");
+        int[] arr = {3, 8, 15, 22, 31, 40, 7, 64};
+        processIf(arr, n -> n % 2 == 0, n -> System.out.print(n + " "));
+        System.out.println();
+        processIf(arr, n -> n > 20, n -> System.out.print(n * n + " "));
+        System.out.println();
+
+        System.out.println("\n=== Завдання 6 ===");
+        Function<Integer, Integer> pow2 = n -> 1 << n;
+        int[] powers = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9};
+        System.out.println(Arrays.toString(processArray(powers, pow2)));
+
+
+
+        System.out.println("\n=== Завдання 7 ===");
+        String[] words = {"нуль", "один", "два", "три", "чотири",
+                "п'ять", "шість", "сім", "вісім", "дев'ять"};
+        Function<Integer, String> digitToWord = d -> words[d];
+        int[] digits = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9};
+        System.out.println(Arrays.toString(stringify(digits, digitToWord)));
 
     }
 }
